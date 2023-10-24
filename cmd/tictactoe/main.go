@@ -58,9 +58,12 @@ func main() {
 	}
 	defer f.Close()
 
+	var Width = 6
+	var WinSize = 4
+
 	conf := agogo.Config{
 		Name:            "Tic Tac Toe",
-		NNConf:          dual.DefaultConf(3, 3, 10),
+		NNConf:          dual.DefaultConf(Width, Width, 10),
 		MCTSConf:        mcts.DefaultConfig(3),
 		UpdateThreshold: 0.52,
 	}
@@ -70,8 +73,8 @@ func main() {
 	conf.NNConf.SharedLayers = 3
 	conf.MCTSConf = mcts.Config{
 		PUCT:           1.0,
-		M:              3,
-		N:              3,
+		M:              Width,
+		N:              Width,
 		Timeout:        100 * time.Millisecond,
 		PassPreference: mcts.DontPreferPass,
 		Budget:         1000,
@@ -115,7 +118,7 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	g := mnk.TicTacToe()
+	g := mnk.New(Width, Width, WinSize)
 	a := agogo.New(g, conf)
 	a.Learn(5, 30, 200, 30) // 5 epochs, 50 episode, 100 NN iters, 100 games.
 	outEnc.Flush()
