@@ -63,7 +63,7 @@ func main() {
 
 	conf := agogo.Config{
 		Name:            "Tic Tac Toe",
-		NNConf:          dual.DefaultConf(Width, Width, 10),
+		NNConf:          dual.DefaultConf(Width, Width, Width*Width+1),
 		MCTSConf:        mcts.DefaultConfig(3),
 		UpdateThreshold: 0.52,
 	}
